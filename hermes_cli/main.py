@@ -217,7 +217,7 @@ def _set_process_title() -> None:
     try:
         import setproctitle  # type: ignore[import-untyped]
 
-        setproctitle.setproctitle("hermes")
+        setproctitle.setproctitle("kynd")
         return
     except ImportError:
         pass
@@ -229,10 +229,10 @@ def _set_process_title() -> None:
         system = platform.system()
         if system == "Linux":
             libc = ctypes.CDLL("libc.so.6", use_errno=True)
-            libc.prctl(15, b"hermes", 0, 0, 0)  # PR_SET_NAME = 15
+            libc.prctl(15, b"kynd", 0, 0, 0)  # PR_SET_NAME = 15
         elif system == "Darwin":
             libc = ctypes.CDLL("libc.dylib", use_errno=True)
-            libc.pthread_setname_np(b"hermes")
+            libc.pthread_setname_np(b"kynd")
     except Exception:
         pass
 
@@ -3470,6 +3470,12 @@ def _default_to_chat(args) -> None:
 def main():
     """Main entry point for hermes CLI."""
     _set_process_title()
+    try:
+        if sys.stdout.isatty():
+            sys.stdout.write('\x1b]0;Kynd\x07')
+            sys.stdout.flush()
+    except Exception:
+        pass
     _warn_if_unsupervised_pid1()
     _advertise_agent_env()
 

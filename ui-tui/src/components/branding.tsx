@@ -3,7 +3,7 @@ import { mix } from '@hermes/shared/color'
 import { useEffect, useState } from 'react'
 import unicodeSpinners from 'unicode-animations'
 
-import { artWidth, caduceus, CADUCEUS_WIDTH, logo, LOGO_WIDTH } from '../banner.js'
+import { artWidth, KYND_MARK_WIDTH, kyndMark, logo, LOGO_WIDTH } from '../banner.js'
 import { useT } from '../i18n/useT.js'
 import { flat } from '../lib/text.js'
 import type { Theme } from '../theme.js'
@@ -57,7 +57,7 @@ export function ArtLines({ lines }: { lines: [string, string][] }) {
 // comfortably without forcing wrap or truncation drift on box-drawing edges.
 // Taglines live in the catalog (chatBits.branding.tagFull/tagMid); the tiny
 // tier is the bare brand name and stays untranslated.
-const TAG_TINY = 'Nous Research'
+const TAG_TINY = 'Kynd OS'
 const HIDE_BELOW = 34
 const COMPACT_FROM = 58
 
@@ -129,16 +129,8 @@ export function Banner({ maxWidth, t }: { maxWidth?: number; t: Theme }) {
           paddingY={0}
           rowGap={0}
           widgets={[
-            { children: <ArtLines lines={logoLines} />, id: 'banner-art' },
-            {
-              children: (
-                <Text color={t.color.muted} wrap="truncate-end">
-                  {t.brand.icon} {T.tagFull}
-                </Text>
-              ),
-              id: 'banner-tagline'
-            }
-          ]}
+            { children: <ArtLines lines={logoLines} />, id: 'banner-art' }
+            ]}
         />
       </Box>
     )
@@ -216,8 +208,8 @@ export function SessionPanel({ info, maxWidth, sid, t }: SessionPanelProps) {
   const T = useT().chatBits.branding
   const term = useStdout().stdout?.columns ?? 100
   const cols = Math.max(20, Math.min(term, maxWidth ?? term))
-  const heroLines = caduceus(t.color, t.bannerHero || undefined)
-  const leftW = Math.min((artWidth(heroLines) || CADUCEUS_WIDTH) + 4, Math.floor(cols * 0.4))
+  const heroLines = kyndMark(t.color, t.bannerHero || undefined)
+  const leftW = Math.min((artWidth(heroLines) || KYND_MARK_WIDTH) + 4, Math.floor(cols * 0.4))
   const wide = cols >= 90 && leftW + 40 < cols
   const w = Math.max(20, wide ? cols - leftW - 14 : cols - 12)
   const lineBudget = Math.max(12, w - 2)
@@ -367,43 +359,18 @@ export function SessionPanel({ info, maxWidth, sid, t }: SessionPanelProps) {
   const heroColumn = wide ? (
     <Box flexDirection="column" width="100%">
       <ArtLines lines={heroLines} />
-      <Text />
-
-      <Text color={t.color.accent}>
-        {(info.model ?? '').split('/').pop()}
-        <Text color={t.color.muted}> · Nous Research</Text>
-      </Text>
-
-      <Text color={t.color.muted} wrap="truncate-end">
-        {info.cwd || process.cwd()}
-      </Text>
-
-      {sid && (
-        <Text>
-          <Text color={t.color.sessionLabel}>{T.sessionLabel}</Text>
-          <Text color={t.color.sessionBorder}>{sid}</Text>
-        </Text>
-      )}
     </Box>
   ) : null
 
   const infoColumn = (
     <Box flexDirection="column" width="100%">
-      {wide ? (
-        <Box justifyContent="center" marginBottom={1}>
-          <Text bold color={t.color.primary}>
-            {t.brand.name}
-            {info.version ? ` v${info.version}` : ''}
-            {info.release_date ? ` (${info.release_date})` : ''}
-          </Text>
-        </Box>
-      ) : (
+      {wide ? null : (
         // Narrow layout hides the hero column; surface model/cwd/session
         // here so they aren't lost.
         <Box flexDirection="column" marginBottom={1}>
           <Text color={t.color.accent} wrap="truncate-end">
             {(info.model ?? '').split('/').pop()}
-            <Text color={t.color.muted}> · Nous Research</Text>
+            <Text color={t.color.muted}> · Kynd OS</Text>
           </Text>
           <Text color={t.color.muted} wrap="truncate-end">
             {info.cwd || process.cwd()}
@@ -514,7 +481,7 @@ export function SessionPanel({ info, maxWidth, sid, t }: SessionPanelProps) {
     <Box borderColor={t.color.border} borderStyle="round" marginBottom={1} paddingX={2} paddingY={1}>
       <WidgetGrid
         cols={wide ? leftW + 2 + w : w}
-        columns={wide ? [leftW, { fr: 1 }] : 1}
+        columns={wide ? [{ fr: 1 }] : 1}
         gap={2}
         paddingX={0}
         paddingY={0}
@@ -522,8 +489,15 @@ export function SessionPanel({ info, maxWidth, sid, t }: SessionPanelProps) {
         widgets={
           wide
             ? [
-                { children: heroColumn, id: 'session-hero' },
-                { children: infoColumn, id: 'session-info' }
+                {
+                  children: (
+                    <Box flexDirection="column" width="100%">
+                      {heroColumn}
+                      {infoColumn}
+                    </Box>
+                  ),
+                  id: 'session-hero'
+                }
               ]
             : [{ children: infoColumn, id: 'session-info' }]
         }

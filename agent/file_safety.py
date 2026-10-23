@@ -353,15 +353,15 @@ _CREDENTIAL_FILE_NAMES = (
 # of the user's Cookies / Login Data — the same credential class as auth.json.
 _READ_DENIED_DIRS = (
     ("mcp-tokens",
-     "is the Hermes MCP token directory and cannot be read directly.",
-     "is a Hermes MCP token file and cannot be read directly."),
+     "is the Kynd MCP token directory and cannot be read directly.",
+     "is a Kynd MCP token file and cannot be read directly."),
     ("browser-profile",
-     "is the Hermes real-profile browser snapshot directory (copied cookies/logins) and cannot be read directly.",
-     "is inside the Hermes real-profile browser snapshot (copied cookies/logins) and cannot be read directly."),
+     "is the Kynd real-profile browser snapshot directory (copied cookies/logins) and cannot be read directly.",
+     "is inside the Kynd real-profile browser snapshot (copied cookies/logins) and cannot be read directly."),
     # vault.key + vault.json.enc sit side by side; key + ciphertext = plaintext, so the whole dir is one credential.
     ("vault",
-     "is the Hermes credential vault directory and cannot be read directly (secrets are filled server-side by browser_vault).",
-     "is inside the Hermes credential vault (encrypted secrets + local key) and cannot be read directly (browser_vault resolves them server-side)."),
+     "is the Kynd credential vault directory and cannot be read directly (secrets are filled server-side by browser_vault).",
+     "is inside the Kynd credential vault (encrypted secrets + local key) and cannot be read directly (browser_vault resolves them server-side)."),
 )
 
 
@@ -390,12 +390,12 @@ def get_read_block_error(path: str) -> Optional[str]:
     reason = None
     if any(_is_under(resolved, hd / "skills" / ".hub") for hd in hermes_dirs):
         reason = (
-            "is an internal Hermes cache file and cannot be read directly to prevent "
+            "is an internal Kynd cache file and cannot be read directly to prevent "
             "prompt injection. Use the skills_list or skill_view tools instead."
         )
     elif any(resolved in _resolve_each(hd / name for hd in hermes_dirs) for name in _CREDENTIAL_FILE_NAMES):
         reason = (
-            "is a Hermes credential store and cannot be read directly. Provider tools "
+            "is a Kynd credential store and cannot be read directly. Provider tools "
             "consume these credentials through internal channels." + _DID_SUFFIX
         )
     else:

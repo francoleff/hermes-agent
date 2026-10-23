@@ -11,8 +11,8 @@
 export const chatBitsEn = {
   chatBits: {
     branding: {
-      tagFull: 'Nous Research · Messenger of the Digital Gods',
-      tagMid: 'Messenger of the Digital Gods',
+      tagFull: 'Kynd OS · Build the thing.',
+      tagMid: 'Build the thing.',
       scanningSkills: 'scanning skills',
       moreCategories: (count: number) => `(and ${count} more categories…)`,
       moreToolsets: (count: number) => `(and ${count} more toolsets…)`,
@@ -25,8 +25,8 @@ export const chatBitsEn = {
       failed: 'failed',
       noSystemPrompt: 'No system prompt loaded.',
       sessionLabel: 'Session: ',
-      availableTools: 'Available Tools',
-      availableSkills: 'Available Skills',
+      availableTools: 'What Kynd can do',
+      availableSkills: 'Ready-made help',
       inCategoriesOne: (count: number) => `in ${count} category`,
       inCategoriesOther: (count: number) => `in ${count} categories`,
       systemPrompt: 'System Prompt',
@@ -85,14 +85,14 @@ export const chatBitsEn = {
       more: (count: number) => `…and ${count} more`
     },
     entry: {
-      noTty: 'hermes-tui: no TTY',
+      noTty: 'kynd-tui: no TTY',
       // {0} = memory level ('high' | 'critical'), {1} = formatted heap size, {2} = dump path.
       memoryDump: (level: string, heap: string, path: string) =>
-        `hermes-tui: ${level} memory (${heap}) — auto heap dump → ${path}`,
+        `kynd-tui: ${level} memory (${heap}) — auto heap dump → ${path}`,
       dumpFailed: '(failed)',
-      exitingOom: 'hermes-tui: exiting to avoid OOM; restart to recover',
+      exitingOom: 'kynd-tui: exiting to avoid OOM; restart to recover',
       heapClimbing: (heap: string) =>
-        `hermes-tui: heap climbing fast (${heap}) — a large tool output or long session may be straining memory`
+        `kynd-tui: heap climbing fast (${heap}) — a large tool output or long session may be straining memory`
     }
   }
 }

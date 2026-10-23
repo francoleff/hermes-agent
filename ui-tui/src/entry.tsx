@@ -16,6 +16,14 @@ import { openExternalUrl } from './lib/openExternalUrl.js'
 import { recordParentLifecycle } from './lib/parentLog.js'
 import { clearNativeTuiFrame, resetTerminalModes } from './lib/terminalModes.js'
 
+process.title = 'Kynd OS'
+
+try {
+  process.stdout.write('\x1b]0;Kynd OS\x07')
+} catch {
+  /* best-effort terminal title; not all terminals expose one */
+}
+
 if (!process.stdin.isTTY) {
   console.log(messages().chatBits.entry.noTty)
   process.exit(0)

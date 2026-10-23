@@ -43,7 +43,7 @@ class NousDashboardAuthProvider(JwtOAuthProvider):
     """Nous Portal OAuth via authorization-code + PKCE (S256)."""
 
     name = "nous"
-    display_name = "Nous Research"
+    display_name = "Nous Portal"
 
     def __init__(self, *, client_id: str, portal_url: str, token_leeway: float = DEFAULT_TOKEN_LEEWAY_SECONDS) -> None:
         # Defense-in-depth: register() filters too, but a malformed id must never construct a provider.
